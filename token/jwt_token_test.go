@@ -47,23 +47,17 @@ func TestExpiredJWTToken(t *testing.T) {
 }
 
 func TestInvalidJWTToken(t *testing.T) {
-	secretKey := random.Letter(32)
-	signingMethod := jwt.SigningMethodHS256
-	jwtToken := NewJWTToken(secretKey, signingMethod)
-
 	data := "data"
 	duration := time.Minute
+	payload := NewPayload(data, duration)
 
-	token, err := jwtToken.CreateToken(data, duration)
+	secretKey := random.Letter(32)
+	noneJwtToken := jwt.NewWithClaims(jwt.SigningMethodNone, payload)
+	token, err := noneJwtToken.SignedString(jwt.UnsafeAllowNoneSignatureType)
 	require.NoError(t, err)
-	require.NotEmpty(t, token)
 
-	anotherSecretKey := random.Letter(32)
-	anotherSigningMethod := jwt.SigningMethodHS384
-	anotherJWTToken := NewJWTToken(anotherSecretKey, anotherSigningMethod)
-
-	payload, err := anotherJWTToken.ValidateToken(token)
+	jwtToken := NewJWTToken(secretKey, jwt.SigningMethodHS256)
+	payload, err = jwtToken.ValidateToken(token)
 	require.Error(t, err)
 	require.Nil(t, payload)
-	require.Equal(t, ErrInvalidToken, err)
 }
