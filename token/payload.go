@@ -42,10 +42,10 @@ func (p Payload) GetAudience() (jwt.ClaimStrings, error) {
 	return nil, nil
 }
 
-func NewPayload(data string, duration time.Duration) *Payload {
+func NewPayload(data string, time time.Time) *Payload {
 	return &Payload{
 		ID:        uuid.New(),
 		Data:      data,
-		ExpiredAt: jwt.NewNumericDate(time.Now().Add(duration)),
+		ExpiredAt: jwt.NewNumericDate(time),
 	}
 }

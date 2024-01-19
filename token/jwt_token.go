@@ -12,7 +12,7 @@ type JWTToken struct {
 }
 
 func (t JWTToken) CreateToken(data string, duration time.Duration) (string, error) {
-	payload := NewPayload(data, duration)
+	payload := NewPayload(data, time.Now().Add(duration))
 	token := jwt.NewWithClaims(t.method, payload)
 	return token.SignedString([]byte(t.secretKey))
 }

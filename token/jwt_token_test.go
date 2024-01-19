@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func TestJWTToken(t *testing.T) {
+func TestCreateJWTToken(t *testing.T) {
 	secretKey := random.Letter(32)
 	signingMethod := jwt.SigningMethodHS256
 	jwtToken := NewJWTToken(secretKey, signingMethod)
@@ -49,7 +49,7 @@ func TestExpiredJWTToken(t *testing.T) {
 func TestInvalidJWTToken(t *testing.T) {
 	data := "data"
 	duration := time.Minute
-	payload := NewPayload(data, duration)
+	payload := NewPayload(data, time.Now().Add(duration))
 
 	secretKey := random.Letter(32)
 	noneJwtToken := jwt.NewWithClaims(jwt.SigningMethodNone, payload)
