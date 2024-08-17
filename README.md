@@ -3,7 +3,7 @@
 Go-Util 是一个golang工具包，包含了一些常用的工具类，方便开发者使用。
 ### 2. 安装
 ```shell
-go get github.com/chenyingdi/go-util
+go get github.com/dora-exku/go-util
 ```
 ### 使用
 #### password
